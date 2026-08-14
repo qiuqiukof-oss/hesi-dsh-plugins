@@ -1,0 +1,72 @@
+# Hesi DSH Plugins — 挂载组合示例（cordis.patch.yml）
+#
+# 用法：合并进 $DSH_HOME/profiles/<name>/cordis.patch.yml（用户层 patch），
+# 在 dsh-base + dsh-headless 两个 bundle 之上叠加。
+#
+# ⚠️ 凭据纪律：LLM key 一律走环境变量（apiKeyEnv），本文件不含任何密钥。
+#    AGNES 路由运行前需 `export AGNES_API_KEY=...`（或 PowerShell $env:AGNES_API_KEY=...）。
+
+# ---------- 1) LLM 路由（经 llm-pi-ai 手写路由；它默认休眠，激活需补 providers） ----------
+- id: llm-pi-ai
+  config:
+    providers:
+      # 云端 OpenAI 兼容端点（示例：AGNES Hub；可换成 DeepSeek 官方/任意兼容端点）
+      agnes:
+        displayName: AGNES Hub (cloud)
+        api: openai-completions
+        baseURL: https://apihub.agnes-ai.cn/v1
+        apiKeyEnv: AGNES_API_KEY
+        # 若模型流式吐 reasoning_content（DeepSeek 思维方言），配 thinkingFormat
+        compat:
+          thinkingFormat: deepseek
+        models:
+          - id: agnes-2.5-flash
+            name: AGNES 2.5 Flash
+            contextWindow: 131072
+            maxTokens: 8192
+            # 非推理声明：不发 reasoning effort 字段；reasoning_content 由 thinkingFormat 解析
+            reasoningEfforts: false
+
+      # 本机备用（LM Studio，无 key）
+      lmstudio:
+        displayName: LM Studio (local)
+        api: openai-completions
+        baseURL: http://127.0.0.1:1234/v1
+        headers:
+          authorization: Bearer lm-studio
+        compat:
+          thinkingFormat: deepseek
+        models:
+          - id: <your-loaded-model-id>
+            name: Local Model
+            contextWindow: 262144
+            maxTokens: 32768
+            reasoningEfforts: false
+
+# ---------- 2) 默认 agent 模型 ----------
+- id: agent-default-model
+  config:
+    provider: agnes
+    model: agnes-2.5-flash
+
+# ---------- 3) Hesi 原创插件（新增 entry 必须用 - insert:；patch 只覆盖已存在 id） ----------
+- insert:
+    - id: hesi-roundtable
+      name: '@hesi/dsh-roundtable'
+      config:
+        roundsPerPhase: 1
+        seats:
+          - id: 'engineer'
+            persona: '你是一名资深工程师，关注可行性与实现成本。'
+          - id: 'pm'
+            persona: '你是一名产品经理，关注用户价值与范围。'
+          - id: 'skeptic'
+            persona: '你是一名持怀疑态度的评审，专门挑风险与漏洞。'
+
+    - id: hesi-plan
+      name: '@hesi/dsh-plan'
+      config:
+        # 生产护栏已内置（forbidden 名单 + scope 收敛 + 审批 fail-closed）。
+        # headless 无 UI provider 时 requireApproval=true 会 fail-closed 全拒；UI 场景再开启。
+        requireApproval: false
+        # scopePath: 'C:/workspace'   # 可选：显式收敛工作区（默认 process.cwd()）

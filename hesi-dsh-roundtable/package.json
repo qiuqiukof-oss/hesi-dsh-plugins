@@ -1,0 +1,20 @@
+{
+  "name": "@hesi/dsh-roundtable",
+  "version": "0.1.0",
+  "description": "Hesi 圆桌工作流 (multi-agent roundtable) 作为 DeepSeek Harness 插件",
+  "type": "module",
+  "main": "src/index.js",
+  "private": true,
+  "exports": {
+    ".": "./src/index.js",
+    "./core": "./src/roundtable-core.js"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-agent": "*",
+    "@deepseek-ai/dsh-tools": "*",
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-session": "*"
+  },
+  "keywords": ["deepseek-harness", "hesi", "roundtable", "multi-agent"]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@hesi/dsh-plan",
+  "version": "0.1.0",
+  "description": "Hesi 一键执行流 (plan) 作为 DeepSeek Harness 插件——对接内置 plan-mode，补自主执行/验证/回滚/盲审",
+  "type": "module",
+  "main": "src/index.js",
+  "private": true,
+  "exports": {
+    ".": "./src/index.js",
+    "./core": "./src/plan-core.js",
+    "./schema": "./src/plan-schema.js"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-agent": "*",
+    "@deepseek-ai/dsh-tools": "*",
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-session": "*",
+    "@deepseek-ai/dsh-plan-mode": "*"
+  },
+  "keywords": ["deepseek-harness", "hesi", "plan", "one-click-execution"]
+}
