@@ -40,7 +40,28 @@
 
 ### 1) 安装插件到 profile
 
-把两个插件放进 DSH profile 的依赖（`file:` 或发布后的 npm 包）：
+**方式 A：npm 安装（推荐，已发布 npmjs）**
+
+```sh
+npm install --legacy-peer-deps hesi-dsh-roundtable hesi-dsh-plan
+```
+
+> `--legacy-peer-deps` 必须：插件的 `@deepseek-ai/*` peer 依赖由 DSH 运行环境提供，
+> 单独安装时 npm 严格 peer 检查会报 ERESOLVE。装完后在 profile 的 `package.json` 里
+> 补上 `dsh.profile.bundles`（并确保 `$DSH_HOME/profiles/<name>/node_modules` 含两包即可）：
+
+```jsonc
+// $DSH_HOME/profiles/<name>/package.json
+{
+  "dependencies": {
+    "hesi-dsh-roundtable": "^0.1.0",
+    "hesi-dsh-plan": "^0.1.0"
+  },
+  "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-headless"] } }
+}
+```
+
+**方式 B：本地目录（开发/离线）**
 
 ```jsonc
 // $DSH_HOME/profiles/<name>/package.json

@@ -44,6 +44,29 @@ Prereqs: DSH 0.1.0-rc.5+ (monorepo build or CLI), any OpenAI-compatible LLM
 
 ### 1) Add the plugins to a profile
 
+**Option A: npm install (recommended, published on npmjs)**
+
+```sh
+npm install --legacy-peer-deps hesi-dsh-roundtable hesi-dsh-plan
+```
+
+> `--legacy-peer-deps` is required: the plugins' `@deepseek-ai/*` peer dependencies are
+> provided by the DSH runtime, so a standalone install hits npm's strict peer check (ERESOLVE).
+> After installing, declare the bundles in the profile's `package.json`:
+
+```jsonc
+// $DSH_HOME/profiles/<name>/package.json
+{
+  "dependencies": {
+    "hesi-dsh-roundtable": "^0.1.0",
+    "hesi-dsh-plan": "^0.1.0"
+  },
+  "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-headless"] } }
+}
+```
+
+**Option B: local directory (development / offline)**
+
 ```jsonc
 // $DSH_HOME/profiles/<name>/package.json
 {
