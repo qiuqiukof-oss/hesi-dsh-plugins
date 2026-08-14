@@ -2,7 +2,7 @@
 
 > **Hesi 出品 · 同源实现** —— 把 Hesi（浏览器里的终端 + AI 智能体中枢）的两大原创工作流
 > **圆桌讨论（Roundtable）** 与 **一键执行流（Plan）** 做成 [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness) 插件。
-> 面向 DSH 生态公开，与 Hesi 企业版为同源实现（非「企业版插件的精简版」）。
+> 面向 DSH 生态公开，与 Hesi 个人版（开源）、企业版为同源实现（非「企业版插件的精简版」）。
 
 两个插件均以 **service + tool** 形态工作（不替换 DSH 的 `ctx.agentLoop`，复用原生多智能体 `ctx.agents.create` 与内置 `ctx.planMode`），
 所有 DSH 运行时调用收口在薄适配层（`src/seats.js` / `src/plan-adapter.js`），DSH 接口有变只需改适配层。
@@ -27,7 +27,7 @@
 | RBAC / 审计 / 审批流 / 企业部署 | ❌ 不包含 | ✅ |
 | 浏览器终端 + AI 智能体中枢 | ❌ 不包含 | ✅ |
 
-> 需要完整工作台与生态 → 访问 [Hesi](https://github.com/qiuqiukof-oss/Hesi)（企业版）。
+> 需要完整工作台与生态 → 访问 [Hesi](https://github.com/qiuqiukof-oss/Hesi-Q)（开源个人版）。
 
 ---
 
