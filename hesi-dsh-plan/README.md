@@ -23,7 +23,11 @@
 
 ## 闸门与回滚
 - `gatePlan`：plan 必须至少含一个机器可验证验收（acceptance 中 command/script/http），否则拒收（除非走人工审批）。
-- 关键步骤验证失败 → `snapshot` 回滚（当前用 `git stash` 简化，生产应接 path-guard + 硬快照）。
+- 关键步骤验证失败 → `snapshot` 回滚（硬快照：`tar` 打包 scope 至 `.hesi-snapshots/`，排除 `node_modules`/`.git`，不依赖 git stash）。
+
+## 生产护栏
+- forbidden 命令名单（`rm -rf 盘根`、`git push --force`、`format` 等）+ scope 收敛（`workdir` 固定、拦盘根切换/越界绝对路径）+ 审批 fail-closed（`ctx.userQuestions`，无通道即拒绝）。
+- Windows 自动使用 `tool-pwsh`（DSH 在 win32 禁用 `tool-bash`）。
 
 ## 测试
-- 运行时 mock 验证通过（含 checkpoint 推导与失败回滚用例，`scripts/verify`，开发期）。
+- 运行时 mock 验证通过（含 checkpoint 推导与失败回滚用例，见仓库根 `verify/`）。

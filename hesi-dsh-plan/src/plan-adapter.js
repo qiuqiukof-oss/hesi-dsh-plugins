@@ -25,6 +25,7 @@
 import { CallId } from '@deepseek-ai/dsh-llm'
 import { createUserMessage } from '@deepseek-ai/dsh-llm'
 import { randomUUID } from 'node:crypto'
+import path from 'node:path'
 
 // 平台 shell 工具名：dsh-base 在 win32 上禁用 tool-bash，由 tool-pwsh 承接同一契约。
 const SHELL_TOOL = process.platform === 'win32' ? 'tool-pwsh' : 'bash'
@@ -207,14 +208,34 @@ export function createRuntime(ctx, config = {}) {
     },
 
     async snapshot() {
-      const id = `hesi-snap-${randomUUID()}`
-      // 简化策略：用 git stash 记录工作区；真实实现应接 path-guard + 硬快照。
-      await runShell('git stash push -u -m "hesi-plan-snapshot"', 'hesi-snap').catch(() => {})
-      return id
+      // 硬快照：tar 打包 scope（排除 node_modules/.git/.hesi-snapshots）到 scope/.hesi-snapshots/。
+      // Windows 10+ 自带 tar（bsdtar），与 POSIX 同命令；不做 git stash 依赖。
+      const id = `hesi-snap-${Date.now().toString(36)}-${randomUUID().slice(0, 8)}`
+      const snapDir = path.join(scope, '.hesi-snapshots')
+      const file = path.join(snapDir, `${id}.tar.gz`)
+      const mk = await runShell(`New-Item -ItemType Directory -Force -Path "${snapDir}"`, 'hesi-snap-mk').catch(() => {})
+      if (!mk) {
+        // 非 Windows 备选
+        await runShell(`mkdir -p "${snapDir}"`, 'hesi-snap-mk').catch(() => {})
+      }
+      const tar = await runShell(
+        `tar -czf "${file}" -C "${scope}" --exclude=node_modules --exclude=.git --exclude=.hesi-snapshots .`,
+        'hesi-snap',
+      )
+      if (!tar.ok) return { ok: false, output: `[hesi-plan] 快照失败: ${tar.output}` }
+      return { ok: true, id, path: file }
     },
 
-    async rollback() {
-      await runShell('git stash pop', 'hesi-rollback').catch(() => {})
+    async rollback(id) {
+      // 兼容字符串 id 或 snapshot() 返回的对象（plan-core 直接透传）。
+      const snapId = typeof id === 'string' ? id : id?.id
+      const file = snapId ? path.join(scope, '.hesi-snapshots', `${snapId}.tar.gz`) : null
+      if (!file) {
+        ctx.logger?.warn?.('hesi-plan: rollback 缺少快照 id，跳过')
+        return { ok: false, output: '缺少快照 id' }
+      }
+      const res = await runShell(`tar -xzf "${file}" -C "${scope}"`, 'hesi-rollback')
+      return { ok: res.ok, output: res.output }
     },
 
     async deriveVerify(question, rounds) {

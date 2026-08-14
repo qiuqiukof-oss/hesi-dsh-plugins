@@ -1,0 +1,24 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  adapter-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Runtime adapter check (offline, zero deps)
+        working-directory: verify
+        run: node --import ./loader.mjs run-dsh-mock.mjs
+
+      - name: Type-contract check (dsh-api.d.ts)
+        working-directory: verify
+        run: npx -y typescript@latest tsc --noEmit -p tsconfig.verify.json

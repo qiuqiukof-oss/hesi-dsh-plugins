@@ -1,4 +1,5 @@
 node_modules/
 *.log
 roundtable_*.md
+.hesi-snapshots/
 .DS_Store

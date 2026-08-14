@@ -26,4 +26,4 @@
 - 导出 `ctx.hesiRoundtable.deriveVerify(question, rounds)`，供 plan 插件的 checkpoint 软断点调用。
 
 ## 测试
-- 运行时 mock 验证 18/18 通过（`scripts/verify`，开发期）。
+- 运行时 mock 验证 18/18 通过（见仓库根 `verify/`）。

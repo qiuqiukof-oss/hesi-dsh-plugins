@@ -107,8 +107,10 @@ async function main() {
     await seat.dispose?.()
   }
 
-  // ===== 2. plan executeCommand：ctx.tools.execute({callId,name:'bash',arguments:{command},signal}) =====
-  console.log('\n[plan] executeCommand → ctx.tools.execute(name:"bash")')
+  // ===== 2. plan executeCommand：ctx.tools.execute({callId,name:'bash'|'tool-pwsh',arguments:{command},signal}) =====
+  // 平台自适应：win32 → 'tool-pwsh'（dsh-base 禁用 tool-bash），否则 'bash'。
+  const expectedShell = process.platform === 'win32' ? 'tool-pwsh' : 'bash'
+  console.log(`\n[plan] executeCommand → ctx.tools.execute(name:"${expectedShell}")`)
   {
     const { ctx, responseQueue, toolCalls } = makeMockCtx()
     responseQueue.push('hi-out')
@@ -117,7 +119,7 @@ async function main() {
     check('返回 output=hi-out', res.ok === true && res.output === 'hi-out', `(got: ${JSON.stringify(res)})`)
     check('tools.execute 被调用', toolCalls.length === 1)
     const c = toolCalls[0] || {}
-    check('tools.execute name="bash"', c.name === 'bash', `(name=${c.name})`)
+    check(`tools.execute name="${expectedShell}"`, c.name === expectedShell, `(name=${c.name})`)
     check('tools.execute arguments.command', c.arguments && c.arguments.command === 'echo hi', `(args=${JSON.stringify(c.arguments)})`)
     check('tools.execute 带 callId', typeof c.callId === 'string')
     check('tools.execute 带 signal(AbortSignal)', typeof c.signal === 'object' && typeof c.signal.aborted === 'boolean')

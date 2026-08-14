@@ -118,3 +118,12 @@ npx -y typescript@latest tsc --noEmit -p tsconfig.verify.json   # 类型契约�
 ## License
 
 MIT © 2026 Hesi（qiuqiukof）。详见 [LICENSE](./LICENSE)。
+
+---
+
+## 相关项目
+
+| 项目 | 说明 |
+|---|---|
+| [Hesi-Q](https://github.com/qiuqiukof-oss/Hesi-Q) | Hesi 开源个人版（MIT）：浏览器终端 + AI 智能体中枢，即本插件的同源母体 |
+| [Hesi 企业版](https://github.com/qiuqiukof-oss/Hesi) | 完整工作台：专家市场 / 企业连接器 / 知识库 / RBAC·审计 / 企业部署 |
