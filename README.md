@@ -9,8 +9,11 @@
 
 | 插件 | 包名 | 注册能力 |
 |---|---|---|
-| 圆桌讨论 | `dsh-roundtable` | `ctx.hesiRoundtable` 服务 + `roundtable` 工具 |
-| 一键执行流 | `dsh-plan` | `ctx.hesiPlan` 服务 + `run_plan` 工具 |
+| 圆桌讨论 | `hesi-dsh-roundtable` | `ctx.hesiRoundtable` 服务 + `roundtable` 工具 |
+| 一键执行流 | `hesi-dsh-plan` | `ctx.hesiPlan` 服务 + `run_plan` 工具 |
+
+> 两个插件**可单独使用，也可组合使用**：`hesi-dsh-plan` 独立使用时，计划步骤须机器可验证（`gatePlan` 默认要求）；
+> 组合使用时，plan 的 **checkpoint 软断点**会调用 roundtable 的 `deriveVerify` 为不可验证的步骤推导验收标准（Hesi 原创联动）。
 
 ---
 
@@ -43,8 +46,8 @@
 // $DSH_HOME/profiles/<name>/package.json
 {
   "dependencies": {
-    "dsh-roundtable": "file:./hesi-dsh-roundtable",
-    "dsh-plan": "file:./hesi-dsh-plan"
+    "hesi-dsh-roundtable": "file:./hesi-dsh-roundtable",
+    "hesi-dsh-plan": "file:./hesi-dsh-plan"
   },
   "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-headless"] } }
 }
@@ -75,7 +78,7 @@ DSH_HOME=$DSH_HOME dsh --profile <name> "用 run_plan 工具制定并执行一�
 
 ## 插件细节
 
-### dsh-roundtable — 圆桌工作流
+### hesi-dsh-roundtable — 圆桌工作流
 
 多智能体围桌讨论 → 综合 → 裁决（Hesi 原创核心）：
 
@@ -84,7 +87,7 @@ DSH_HOME=$DSH_HOME dsh --profile <name> "用 run_plan 工具制定并执行一�
 - 席位用 DSH 原生 `ctx.agents.create` 拉起（不替换 agent-loop），运行时调用收口 `src/seats.js`；
 - 导出 `ctx.hesiRoundtable.deriveVerify(question, rounds)`，供 plan 插件的 checkpoint 软断点调用。
 
-### dsh-plan — 一键执行流
+### hesi-dsh-plan — 一键执行流
 
 在 DSH 内置 `plan-mode`（规划 + 审批）之上叠加 Hesi 独有的**自主执行层**：
 

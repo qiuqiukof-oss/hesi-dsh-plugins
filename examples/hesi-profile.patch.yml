@@ -52,7 +52,7 @@
 # ---------- 3) Hesi 原创插件（新增 entry 必须用 - insert:；patch 只覆盖已存在 id） ----------
 - insert:
     - id: hesi-roundtable
-      name: 'dsh-roundtable'
+      name: 'hesi-dsh-roundtable'
       config:
         roundsPerPhase: 1
         seats:
@@ -64,7 +64,7 @@
             persona: '你是一名持怀疑态度的评审，专门挑风险与漏洞。'
 
     - id: hesi-plan
-      name: 'dsh-plan'
+      name: 'hesi-dsh-plan'
       config:
         # 生产护栏已内置（forbidden 名单 + scope 收敛 + 审批 fail-closed）。
         # headless 无 UI provider 时 requireApproval=true 会 fail-closed 全拒；UI 场景再开启。
