@@ -4,11 +4,17 @@
   "description": "Hesi 圆桌工作流 (multi-agent roundtable) 作为 DeepSeek Harness 插件",
   "type": "module",
   "main": "src/index.js",
-  "private": true,
+  "files": ["src", "README.md", "cordis.yml"],
   "exports": {
     ".": "./src/index.js",
     "./core": "./src/roundtable-core.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiuqiukof-oss/hesi-dsh-plugins.git"
+  },
+  "homepage": "https://github.com/qiuqiukof-oss/hesi-dsh-plugins",
+  "license": "MIT",
   "peerDependencies": {
     "@deepseek-ai/cordis": "*",
     "@deepseek-ai/dsh-agent": "*",
