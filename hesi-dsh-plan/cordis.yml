@@ -1,12 +1,12 @@
 # Hesi 一键执行流 (plan) · DeepSeek Harness 插件
 # 组合示例：追加到你的 cordis.yml（需先装配 agent-loop / tools / llm / system-prompt / plan-mode）
 #
-#  - 包名 @hesi/*（第三方作用域）
+#  - 包名 *（第三方作用域）
 #  - 本插件注册 ctx.hesiPlan 服务 + `run_plan` 工具
 #  - 复用 DSH 内置 plan-mode（规划+审批），不另造；自主执行/验证/回滚/盲审在其上叠加
-#  - checkpoint 推导依赖 @hesi/dsh-roundtable 的 ctx.hesiRoundtable.deriveVerify
+#  - checkpoint 推导依赖 dsh-roundtable 的 ctx.hesiRoundtable.deriveVerify
 
-- name: '@hesi/dsh-roundtable'
+- name: 'dsh-roundtable'
   config:
     roundsPerPhase: 1
     seats:
@@ -17,7 +17,7 @@
       - id: 'skeptic'
         persona: '你是一名持怀疑态度的评审，专门挑风险与漏洞。'
 
-- name: '@hesi/dsh-plan'
+- name: 'dsh-plan'
   config:
     # 是否要求逐步人工审批（依赖 plan-mode）；直接 run_plan 默认自动通过
     requireApproval: false

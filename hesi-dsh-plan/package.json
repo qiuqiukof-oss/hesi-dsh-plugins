@@ -1,5 +1,5 @@
 {
-  "name": "@hesi/dsh-plan",
+  "name": "dsh-plan",
   "version": "0.1.0",
   "description": "Hesi 一键执行流 (plan) 作为 DeepSeek Harness 插件——对接内置 plan-mode，补自主执行/验证/回滚/盲审",
   "type": "module",

@@ -240,7 +240,7 @@ export function createRuntime(ctx, config = {}) {
 
     async deriveVerify(question, rounds) {
       if (!ctx.hesiRoundtable || typeof ctx.hesiRoundtable.deriveVerify !== 'function') {
-        throw new Error('plan-adapter: 圆桌插件(@hesi/dsh-roundtable)未加载，无法 deriveVerify')
+        throw new Error('plan-adapter: 圆桌插件(hesi-dsh-roundtable)未加载，无法 deriveVerify')
       }
       return ctx.hesiRoundtable.deriveVerify(question, rounds)
     },

@@ -2,12 +2,12 @@
 # 组合示例：把下面的条目加到你的 cordis.yml（或在 headless-agent/cordis.yml 副本后追加）
 #
 # 注意：
-#  - 包名使用第三方作用域 @hesi/*（DSH 官方包为 @deepseek-ai/dsh-*）。
+#  - 包名使用第三方作用域 *（DSH 官方包为 @deepseek-ai/dsh-*）。
 #  - 本插件注册 ctx.hesiRoundtable 服务 + `roundtable` 工具。
 #  - 圆桌席位通过 ctx.agents.create 原生多智能体机制拉起，不替换 agent-loop。
 #  - 需先装配 agent-loop / tools / system-prompt / llm 等基础插件（见 examples/headless-agent/cordis.yml）。
 
-- name: '@hesi/dsh-roundtable'
+- name: 'dsh-roundtable'
   config:
     # 每阶段默认轮数（可选）
     roundsPerPhase: 1

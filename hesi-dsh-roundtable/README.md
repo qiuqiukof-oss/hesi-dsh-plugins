@@ -1,4 +1,4 @@
-# @hesi/dsh-roundtable — Hesi 圆桌工作流 (DeepSeek Harness 插件)
+# dsh-roundtable — Hesi 圆桌工作流 (DeepSeek Harness 插件)
 
 把 Hesi 的**原创核心「圆桌工作流」**（多智能体围桌讨论 → 综合 → 裁决）作为 DSH 插件。
 

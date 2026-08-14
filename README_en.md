@@ -12,8 +12,8 @@ so upstream API changes only touch the adapter.
 
 | Plugin | Package | Capabilities |
 |---|---|---|
-| Roundtable | `@hesi/dsh-roundtable` | `ctx.hesiRoundtable` service + `roundtable` tool |
-| Execution plan | `@hesi/dsh-plan` | `ctx.hesiPlan` service + `run_plan` tool |
+| Roundtable | `dsh-roundtable` | `ctx.hesiRoundtable` service + `roundtable` tool |
+| Execution plan | `dsh-plan` | `ctx.hesiPlan` service + `run_plan` tool |
 
 ---
 
@@ -45,8 +45,8 @@ Prereqs: DSH 0.1.0-rc.5+ (monorepo build or CLI), any OpenAI-compatible LLM
 // $DSH_HOME/profiles/<name>/package.json
 {
   "dependencies": {
-    "@hesi/dsh-roundtable": "file:./hesi-dsh-roundtable",
-    "@hesi/dsh-plan": "file:./hesi-dsh-plan"
+    "dsh-roundtable": "file:./hesi-dsh-roundtable",
+    "dsh-plan": "file:./hesi-dsh-plan"
   },
   "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-headless"] } }
 }
@@ -76,7 +76,7 @@ DSH_HOME=$DSH_HOME dsh --profile <name> "用 run_plan 工具制定并执行一�
 
 ## Plugin details
 
-### @hesi/dsh-roundtable — Roundtable workflow
+### dsh-roundtable — Roundtable workflow
 
 Multi-agent round-table discussion → synthesis → verdict (Hesi's original core):
 
@@ -85,7 +85,7 @@ Multi-agent round-table discussion → synthesis → verdict (Hesi's original co
 - seats are spawned via native `ctx.agents.create` (no agent-loop replacement), runtime calls isolated in `src/seats.js`;
 - exports `ctx.hesiRoundtable.deriveVerify(question, rounds)` for the plan plugin's checkpoint soft-breakpoints.
 
-### @hesi/dsh-plan — One-click execution plan
+### dsh-plan — One-click execution plan
 
 An Hesi-specific **autonomous execution layer** on top of DSH's built-in `plan-mode`:
 

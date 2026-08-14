@@ -1,5 +1,5 @@
 {
-  "name": "@hesi/dsh-roundtable",
+  "name": "dsh-roundtable",
   "version": "0.1.0",
   "description": "Hesi 圆桌工作流 (multi-agent roundtable) 作为 DeepSeek Harness 插件",
   "type": "module",

@@ -1,4 +1,4 @@
-# @hesi/dsh-plan — Hesi 一键执行流 (DeepSeek Harness 插件)
+# dsh-plan — Hesi 一键执行流 (DeepSeek Harness 插件)
 
 把 Hesi 的**原创核心「一键执行流 (plan)」**作为 DSH 插件。
 
@@ -19,7 +19,7 @@
 - `src/plan-core.js` — `runPlan` 编排（零 DSH 依赖）
 - `src/plan-adapter.js` — **DSH 适配层**（`tools.execute` / `hesiRoundtable.deriveVerify` / `planMode`）
 - `src/index.js` — Service + `run_plan` 工具入口
-- `cordis.yml` — 组合示例（含对 `@hesi/dsh-roundtable` 的依赖）
+- `cordis.yml` — 组合示例（含对 `dsh-roundtable` 的依赖）
 
 ## 闸门与回滚
 - `gatePlan`：plan 必须至少含一个机器可验证验收（acceptance 中 command/script/http），否则拒收（除非走人工审批）。
